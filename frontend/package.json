@@ -1,24 +1,57 @@
 {
   "name": "videochat-mlm-frontend",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "Frontend de VideoChat MLM Platform",
-  "author": "txusaut-design <txusaut@gmail.com>",
-  "license": "MIT",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "type-check": "tsc --noEmit"
+  },
   "dependencies": {
+    "next": "^14.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.8.0",
-    "react-scripts": "5.0.1",
-    "web3": "^1.8.1",
-    "socket.io-client": "^4.6.1",
-    "axios": "^1.3.0",
-    "recharts": "^2.5.0",
-    "lucide-react": "^0.263.1"
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "@headlessui/react": "^1.7.17",
+    "@heroicons/react": "^2.0.18",
+    "clsx": "^2.0.0",
+    "axios": "^1.6.0",
+    "socket.io-client": "^4.7.4",
+    "ethers": "^6.8.1",
+    "react-hook-form": "^7.47.0",
+    "@hookform/resolvers": "^3.3.2",
+    "zod": "^3.22.4",
+    "react-hot-toast": "^2.4.1",
+    "framer-motion": "^10.16.4",
+    "react-query": "^3.39.3",
+    "zustand": "^4.4.6",
+    "date-fns": "^2.30.0",
+    "react-webcam": "^7.1.1",
+    "simple-peer": "^9.11.1",
+    "@types/simple-peer": "^9.11.8",
+    "react-copy-to-clipboard": "^5.1.0",
+    "@types/react-copy-to-clipboard": "^5.0.7",
+    "qrcode": "^1.5.3",
+    "@types/qrcode": "^1.5.5",
+    "react-qr-code": "^2.0.11"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test"
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0",
+    "@tailwindcss/forms": "^0.5.7",
+    "@tailwindcss/typography": "^0.5.10",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.5.7"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
