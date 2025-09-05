@@ -210,7 +210,7 @@ export default function MLMPage() {
   );
 }
 
-// User Detail Panel Component
+// UserDetail Panel Component
 interface UserDetailPanelProps {
   userId: string;
 }

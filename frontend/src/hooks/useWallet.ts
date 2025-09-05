@@ -213,7 +213,7 @@ export function useWallet() {
     } catch (error: any) {
       console.error('Error connecting wallet:', error);
       if (error.code === 4001) {
-        toast.error('Wallet connection rejected by user');
+        toast.error('Wallet connection rejected by user.');
       } else {
         toast.error('Failed to connect wallet');
       }

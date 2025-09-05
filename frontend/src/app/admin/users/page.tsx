@@ -1,4 +1,4 @@
-// src/app/admin/users/page.tsx
+// src/app/admin/user/page.tsx
 'use client';
 
 import { useState } from 'react';
@@ -7,7 +7,7 @@ import { motion } from 'framer-motion';
 import {
   UsersIcon,
   MagnifyingGlassIcon,
-  FilterIcon,
+  FunnelIcon,
   EyeIcon,
   PencilIcon,
   TrashIcon,
@@ -27,7 +27,7 @@ const fetchUsers = async (page = 1, search = '', filter = 'all') => {
   // Simulate API delay
   await new Promise(resolve => setTimeout(resolve, 1000));
   
-  // Mock user data
+  // Mock users data
   const allUsers = [
     {
       id: '1',
@@ -131,7 +131,7 @@ export default function AdminUsersPage() {
   const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'expired' | 'inactive'>('all');
   const [selectedUser, setSelectedUser] = useState<string | null>(null);
 
-  const { data: usersData, isLoading, error } = useQuery(
+  const { data: userData, isLoading, error } = useQuery(
     ['admin-users', currentPage, searchTerm, filterStatus],
     () => fetchUsers(currentPage, searchTerm, filterStatus),
     {
@@ -233,7 +233,7 @@ export default function AdminUsersPage() {
               </select>
 
               <Button variant="ghost" size="small">
-                <FilterIcon className="w-4 h-4 mr-2" />
+                <FunnelIcon className="w-4 h-4 mr-2" />
                 More Filters
               </Button>
             </div>
@@ -250,9 +250,9 @@ export default function AdminUsersPage() {
             <div className="text-center py-12">
               <ExclamationTriangleIcon className="mx-auto h-12 w-12 text-red-400 mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">Failed to Load Users</h3>
-              <p className="text-slate-400">Unable to fetch user data</p>
+              <p className="text-slate-400">Unable to fetch users data</p>
             </div>
-          ) : !usersData?.users.length ? (
+          ) : !userData?.users.length ? (
             <div className="text-center py-12">
               <UsersIcon className="mx-auto h-12 w-12 text-slate-400 mb-4" />
               <h3 className="text-lg font-semibold text-white mb-2">No Users Found</h3>
@@ -273,7 +273,7 @@ export default function AdminUsersPage() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-700">
-                  {usersData.users.map((user, index) => (
+                  {userData.users.map((user, index) => (
                     <motion.tr
                       key={user.id}
                       initial={{ opacity: 0, y: 10 }}
@@ -365,10 +365,10 @@ export default function AdminUsersPage() {
           )}
 
           {/* Pagination */}
-          {usersData && usersData.totalPages > 1 && (
+          {userData && userData.totalPages > 1 && (
             <div className="flex items-center justify-between mt-6 pt-6 border-t border-slate-700">
               <div className="text-sm text-slate-400">
-                Showing {(currentPage - 1) * 10 + 1} to {Math.min(currentPage * 10, usersData.total)} of {usersData.total} users
+                Showing {(currentPage - 1) * 10 + 1} to {Math.min(currentPage * 10, userData.total)} of {userData.total} users
               </div>
               
               <div className="flex items-center space-x-2">
@@ -381,10 +381,10 @@ export default function AdminUsersPage() {
                   Previous
                 </Button>
                 
-                {Array.from({ length: usersData.totalPages }, (_, i) => i + 1)
+                {Array.from({ length: userData.totalPages }, (_, i) => i + 1)
                   .filter(page => 
                     page === 1 || 
-                    page === usersData.totalPages || 
+                    page === userData.totalPages || 
                     Math.abs(page - currentPage) <= 1
                   )
                   .map((page, index, array) => (
@@ -405,8 +405,8 @@ export default function AdminUsersPage() {
                 <Button
                   variant="ghost"
                   size="small"
-                  onClick={() => setCurrentPage(prev => Math.min(usersData.totalPages, prev + 1))}
-                  disabled={currentPage === usersData.totalPages}
+                  onClick={() => setCurrentPage(prev => Math.min(userData.totalPages, prev + 1))}
+                  disabled={currentPage === userData.totalPages}
                 >
                   Next
                 </Button>

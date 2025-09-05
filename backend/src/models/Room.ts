@@ -14,7 +14,7 @@ export class RoomModel {
     const query = `
       SELECT r.*, u.username as creator_username 
       FROM rooms r 
-      JOIN users u ON r.creator_id = u.id 
+      JOIN user. u ON r.creator_id = u.id 
       WHERE r.is_active = true 
       ORDER BY r.created_at DESC 
       LIMIT $1
@@ -55,7 +55,7 @@ export class RoomModel {
     return result.rows[0];
   }
 
-  static async joinRoom(roomId: string, userId: string, password?: string): Promise<{ success: boolean; message: string }> {
+  static async joinRoom(roomId: string, user.d: string, password?: string): Promise<{ success: boolean; message: string }> {
     const client = await pool.connect();
     
     try {
@@ -91,10 +91,10 @@ export class RoomModel {
         return { success: false, message: 'Room is full' };
       }
 
-      // Check if user is already in room
+      // Check if user.is already in room
       const existingParticipant = await client.query(
-        'SELECT id FROM room_participants WHERE room_id = $1 AND user_id = $2 AND is_active = true',
-        [roomId, userId]
+        'SELECT id FROM room_participants WHERE room_id = $1 AND user.id = $2 AND is_active = true',
+        [roomId, user.d]
       );
 
       if (existingParticipant.rows.length > 0) {
@@ -103,8 +103,8 @@ export class RoomModel {
 
       // Add participant
       await client.query(
-        'INSERT INTO room_participants (room_id, user_id) VALUES ($1, $2)',
-        [roomId, userId]
+        'INSERT INTO room_participants (room_id, user.id) VALUES ($1, $2)',
+        [roomId, user.d]
       );
 
       // Update participant count
@@ -124,7 +124,7 @@ export class RoomModel {
     }
   }
 
-  static async leaveRoom(roomId: string, userId: string): Promise<void> {
+  static async leaveRoom(roomId: string, user.d: string): Promise<void> {
     const client = await pool.connect();
     
     try {
@@ -132,8 +132,8 @@ export class RoomModel {
 
       // Update participant record
       await client.query(
-        'UPDATE room_participants SET is_active = false, left_at = CURRENT_TIMESTAMP WHERE room_id = $1 AND user_id = $2 AND is_active = true',
-        [roomId, userId]
+        'UPDATE room_participants SET is_active = false, left_at = CURRENT_TIMESTAMP WHERE room_id = $1 AND user.id = $2 AND is_active = true',
+        [roomId, user.d]
       );
 
       // Update participant count
@@ -155,7 +155,7 @@ export class RoomModel {
     const query = `
       SELECT rp.*, u.username, u.first_name, u.last_name, u.avatar_url
       FROM room_participants rp
-      JOIN users u ON rp.user_id = u.id
+      JOIN user. u ON rp.user.id = u.id
       WHERE rp.room_id = $1 AND rp.is_active = true
       ORDER BY rp.joined_at
     `;
@@ -163,16 +163,16 @@ export class RoomModel {
     return result.rows;
   }
 
-  static async getUserRooms(userId: string): Promise<Room[]> {
+  static async getuserrooms(user.d: string): Promise<Room[]> {
     const query = `
       SELECT DISTINCT r.*, u.username as creator_username
       FROM rooms r
       JOIN room_participants rp ON r.id = rp.room_id
-      JOIN users u ON r.creator_id = u.id
-      WHERE rp.user_id = $1 AND rp.is_active = true AND r.is_active = true
+      JOIN user. u ON r.creator_id = u.id
+      WHERE rp.user.id = $1 AND rp.is_active = true AND r.is_active = true
       ORDER BY rp.joined_at DESC
     `;
-    const result = await pool.query(query, [userId]);
+    const result = await pool.query(query, [user.d]);
     return result.rows;
   }
 }

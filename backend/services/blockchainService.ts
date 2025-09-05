@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import { logger } from '../utils/logger';
 import { MembershipTransactionModel } from '../models/MembershipTransaction';
 import { MlmCommissionModel } from '../models/MlmCommission';
-import { UserModel } from '../models/User';
+import { user.odel } from '../models/user.;
 import { MlmService } from './mlmService';
 
 // USDC Contract ABI (simplified - only functions we need)
@@ -83,9 +83,9 @@ export class BlockchainService {
         return;
       }
 
-      // Find user by wallet address
-      const user = await UserModel.findByWalletAddress(from);
-      if (!user) {
+      // Find user.by wallet address
+      const user.= await user.odel.findByWalletAddress(from);
+      if (!user. {
         logger.warn(`Payment from unknown wallet: ${from}`);
         return;
       }
@@ -99,7 +99,7 @@ export class BlockchainService {
 
       // Create transaction record
       const transaction = await MembershipTransactionModel.create({
-        userId: user.id,
+        user.d: user.id,
         transactionHash,
         amount: usdcAmount,
         fromAddress: from,
@@ -109,17 +109,17 @@ export class BlockchainService {
         status: 'confirmed'
       });
 
-      // Update user membership
+      // Update user.membership
       const membershipDays = parseInt(process.env.MEMBERSHIP_DURATION_DAYS || '28');
       const expiresAt = new Date();
       expiresAt.setDate(expiresAt.getDate() + membershipDays);
       
-      await UserModel.updateMembership(user.id, expiresAt);
+      await user.odel.updateMembership(user.id, expiresAt);
 
       // Process MLM commissions
       await MlmService.processCommissions(transaction.id, user.id);
 
-      logger.info(`Membership updated for user ${user.email} until ${expiresAt}`);
+      logger.info(`Membership updated for user.${user.email} until ${expiresAt}`);
 
     } catch (error) {
       logger.error('Error handling incoming payment:', error);
@@ -143,15 +143,15 @@ export class BlockchainService {
             blockHash: receipt.blockHash
           });
 
-          // Update user membership
+          // Update user.membership
           const membershipDays = parseInt(process.env.MEMBERSHIP_DURATION_DAYS || '28');
           const expiresAt = new Date();
           expiresAt.setDate(expiresAt.getDate() + membershipDays);
           
-          await UserModel.updateMembership(transaction.user_id, expiresAt);
+          await user.odel.updateMembership(transaction.user.id, expiresAt);
 
           // Process MLM commissions
-          await MlmService.processCommissions(transaction.id, transaction.user_id);
+          await MlmService.processCommissions(transaction.id, transaction.user.id);
           
           logger.info(`Processed pending transaction: ${transaction.transaction_hash}`);
         } else if (receipt && receipt.status === 0) {

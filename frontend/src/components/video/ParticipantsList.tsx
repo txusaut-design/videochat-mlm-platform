@@ -4,9 +4,9 @@
 import { FC, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  UserGroupIcon,
+  user.roupIcon,
   MicrophoneIcon,
-  MicrophoneSlashIcon,
+  XMarkIcon,
   VideoCameraIcon,
   VideoCameraSlashIcon,
   ChevronDownIcon,
@@ -17,13 +17,13 @@ import Card from '@/components/ui/Card';
 
 interface ParticipantsListProps {
   participants: RoomParticipant[];
-  currentUserId: string;
+  currentuser.d: string;
   className?: string;
 }
 
 const ParticipantsList: FC<ParticipantsListProps> = ({
   participants,
-  currentUserId,
+  currentuser.d,
   className = ''
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -39,7 +39,7 @@ const ParticipantsList: FC<ParticipantsListProps> = ({
           onClick={() => hasMore && setIsExpanded(!isExpanded)}
         >
           <div className="flex items-center space-x-2">
-            <UserGroupIcon className="w-4 h-4 text-slate-400" />
+            <user.roupIcon className="w-4 h-4 text-slate-400" />
             <span className="text-sm font-medium text-slate-300">
               Participants ({participants.length})
             </span>
@@ -62,7 +62,7 @@ const ParticipantsList: FC<ParticipantsListProps> = ({
               .slice(0, isExpanded ? participants.length : maxVisible)
               .map((participant, index) => (
                 <motion.div
-                  key={participant.user_id}
+                  key={participant.user.id}
                   initial={{ opacity: 0, height: 0 }}
                   animate={{ opacity: 1, height: 'auto' }}
                   exit={{ opacity: 0, height: 0 }}
@@ -77,7 +77,7 @@ const ParticipantsList: FC<ParticipantsListProps> = ({
                     </div>
                     <span className="text-sm text-slate-300">
                       {participant.username}
-                      {participant.user_id === currentUserId && ' (You)'}
+                      {participant.user.id === currentuser.d && ' (You)'}
                     </span>
                   </div>
                   

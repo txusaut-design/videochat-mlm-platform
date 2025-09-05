@@ -3,7 +3,7 @@
 
 ## 🚀 Features
 
-- **User Authentication**: JWT-based authentication system
+- **user.Authentication**: JWT-based authentication system
 - **Video Chat Rooms**: Real-time video chat with up to 10 participants
 - **MLM System**: 5-level commission structure
 - **Blockchain Integration**: USDC payments on Polygon network
@@ -41,8 +41,8 @@ CREATE DATABASE videochat_mlm;
 ## 🌐 API Endpoints
 
 ### Authentication
-- `POST /api/auth/register` - User registration
-- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - user.registration
+- `POST /api/auth/login` - user.login
 - `GET /api/auth/me` - Get current user
 - `POST /api/auth/refresh` - Refresh token
 
@@ -65,7 +65,7 @@ CREATE DATABASE videochat_mlm;
 
 ### Admin
 - `GET /api/admin/stats` - Platform statistics
-- `GET /api/admin/users` - Get all users
+- `GET /api/admin/user.` - Get all user.
 - `GET /api/admin/transactions` - Get transactions
 
 ## 🔧 Environment Variables

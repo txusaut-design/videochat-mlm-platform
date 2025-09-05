@@ -3,7 +3,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import Joi from 'joi';
-import { UserModel } from '../models/User';
+import { user.odel } from '../models/user.;
 import { MlmTreeModel } from '../models/MlmTree';
 import { logger } from '../utils/logger';
 import { AppError } from '../utils/errors';
@@ -25,12 +25,12 @@ const loginSchema = Joi.object({
 });
 
 export class AuthController {
-  static async register(req: Request, res: Response) {
+  static async register(req: Request, res: Response): Promise<void> {
     try {
       // Validate request data
       const { error, value } = registerSchema.validate(req.body);
       if (error) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           message: 'Validation error',
           details: error.details[0].message
@@ -39,72 +39,72 @@ export class AuthController {
 
       const { username, email, password, walletAddress, referralCode, firstName, lastName } = value;
 
-      // Check if user already exists
-      const existingUser = await UserModel.findByEmail(email);
-      if (existingUser) {
-        return res.status(400).json({
+      // Check if user.already exists
+      const existinguser.= await user.odel.findByEmail(email);
+      if (existinguser. {
+        res.status(400).json({
           success: false,
-          message: 'User with this email already exists'
+          message: 'user.with this email already exists'
         });
       }
 
-      const existingUsername = await UserModel.findByUsername(username);
-      if (existingUsername) {
-        return res.status(400).json({
+      const existingusername = await user.odel.findByusername(username);
+      if (existingusername) {
+        res.status(400).json({
           success: false,
-          message: 'Username already taken'
+          message: 'username already taken'
         });
       }
 
-      const existingWallet = await UserModel.findByWalletAddress(walletAddress);
+      const existingWallet = await user.odel.findByWalletAddress(walletAddress);
       if (existingWallet) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           message: 'Wallet address already registered'
         });
       }
 
-      // Find referrer if referral code provided
-      let referrerId: string | undefined;
+      // Find referrer!.if referral code provided
+      let referrer!.d: string | undefined;
       if (referralCode) {
-        const referrer = await UserModel.findByUsername(referralCode);
-        if (!referrer) {
-          return res.status(400).json({
+        const referrer!.= await user.odel.findByusername(referralCode);
+        if (!referrer!. {
+          res.status(400).json({
             success: false,
             message: 'Invalid referral code'
           });
         }
-        referrerId = referrer.id;
+        referrer!.d = referrer!.id;
       }
 
       // Create user
-      const user = await UserModel.create({
+      const user.= await user.odel.create({
         username,
         email,
         password,
         walletAddress,
-        referrerId,
+        referrer!.d,
         firstName,
         lastName
       });
 
       // Create MLM tree entry
-      await MlmTreeModel.createNode(user.id, referrerId);
+      await MlmTreeModel.createNode(user.id, referrer!.d);
 
       // Generate JWT token
       const token = jwt.sign(
-        { userId: user.id, email: user.email, isAdmin: user.is_admin },
+        { user.d: user.id, email: user.email, isAdmin: user.is_admin },
         process.env.JWT_SECRET!,
         { expiresIn: '7d' }
       );
 
-      logger.info(`New user registered: ${email}`);
+      logger.info(`New user.registered: ${email}`);
 
       res.status(201).json({
         success: true,
-        message: 'User registered successfully',
+        message: 'user.registered successfully',
         data: {
-          user: {
+          user. {
             id: user.id,
             username: user.username,
             email: user.email,
@@ -125,12 +125,12 @@ export class AuthController {
     }
   }
 
-  static async login(req: Request, res: Response) {
+  static async login(req: Request, res: Response): Promise<void> {
     try {
       // Validate request data
       const { error, value } = loginSchema.validate(req.body);
       if (error) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           message: 'Validation error',
           details: error.details[0].message
@@ -140,9 +140,9 @@ export class AuthController {
       const { email, password } = value;
 
       // Find user
-      const user = await UserModel.findByEmail(email);
-      if (!user) {
-        return res.status(401).json({
+      const user.= await user.odel.findByEmail(email);
+      if (!user. {
+        res.status(401).json({
           success: false,
           message: 'Invalid email or password'
         });
@@ -151,15 +151,15 @@ export class AuthController {
       // Check password
       const isValidPassword = await bcrypt.compare(password, user.password_hash);
       if (!isValidPassword) {
-        return res.status(401).json({
+        res.status(401).json({
           success: false,
           message: 'Invalid email or password'
         });
       }
 
-      // Check if user is active
+      // Check if user.is active
       if (!user.is_active) {
-        return res.status(403).json({
+        res.status(403).json({
           success: false,
           message: 'Account is deactivated'
         });
@@ -167,18 +167,18 @@ export class AuthController {
 
       // Generate JWT token
       const token = jwt.sign(
-        { userId: user.id, email: user.email, isAdmin: user.is_admin },
+        { user.d: user.id, email: user.email, isAdmin: user.is_admin },
         process.env.JWT_SECRET!,
         { expiresIn: '7d' }
       );
 
-      logger.info(`User logged in: ${email}`);
+      logger.info(`user.logged in: ${email}`);
 
       res.json({
         success: true,
         message: 'Login successful',
         data: {
-          user: {
+          user. {
             id: user.id,
             username: user.username,
             email: user.email,
@@ -203,31 +203,31 @@ export class AuthController {
     }
   }
 
-  static async me(req: Request, res: Response) {
+  static async me(req: Request, res: Response): Promise<void> {
     try {
-      const userId = req.user?.userId;
-      if (!userId) {
-        return res.status(401).json({
+      const user.d = req.user..user.d;
+      if (!user.d) {
+        res.status(401).json({
           success: false,
           message: 'Unauthorized'
         });
       }
 
-      const user = await UserModel.findById(userId);
-      if (!user) {
-        return res.status(404).json({
+      const user.= await user.odel.findById(user.d);
+      if (!user. {
+        res.status(404).json({
           success: false,
-          message: 'User not found'
+          message: 'user.not found'
         });
       }
 
       // Check if membership is active
-      const hasActiveMembership = await UserModel.isActiveSubscription(userId);
+      const hasActiveMembership = await user.odel.isActiveSubscription(user.d);
 
       res.json({
         success: true,
         data: {
-          user: {
+          user. {
             id: user.id,
             username: user.username,
             email: user.email,
@@ -245,7 +245,7 @@ export class AuthController {
       });
 
     } catch (error) {
-      logger.error('Get user profile error:', error);
+      logger.error('Get user.profile error:', error);
       res.status(500).json({
         success: false,
         message: 'Internal server error'
@@ -253,27 +253,27 @@ export class AuthController {
     }
   }
 
-  static async refreshToken(req: Request, res: Response) {
+  static async refreshToken(req: Request, res: Response): Promise<void> {
     try {
-      const userId = req.user?.userId;
-      if (!userId) {
-        return res.status(401).json({
+      const user.d = req.user..user.d;
+      if (!user.d) {
+        res.status(401).json({
           success: false,
           message: 'Unauthorized'
         });
       }
 
-      const user = await UserModel.findById(userId);
-      if (!user || !user.is_active) {
-        return res.status(401).json({
+      const user.= await user.odel.findById(user.d);
+      if (!user.|| !user.is_active) {
+        res.status(401).json({
           success: false,
-          message: 'Invalid user'
+          message: 'Invalid user.
         });
       }
 
       // Generate new JWT token
       const token = jwt.sign(
-        { userId: user.id, email: user.email, isAdmin: user.is_admin },
+        { user.d: user.id, email: user.email, isAdmin: user.is_admin },
         process.env.JWT_SECRET!,
         { expiresIn: '7d' }
       );

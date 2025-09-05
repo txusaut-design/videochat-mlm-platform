@@ -111,7 +111,7 @@ export function useVideoRoom(roomId?: string) {
       addParticipant({
         id: data.socketId,
         room_id: currentRoom?.id || '',
-        user_id: data.userId,
+        userId: data.userId,
         username: data.username,
         joined_at: new Date().toISOString(),
         is_active: true

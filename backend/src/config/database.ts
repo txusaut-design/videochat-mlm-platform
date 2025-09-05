@@ -6,7 +6,7 @@ const poolConfig: PoolConfig = {
   host: process.env.DB_HOST || 'localhost',
   port: parseInt(process.env.DB_PORT || '5432'),
   database: process.env.DB_NAME || 'videochat_mlm',
-  user: process.env.DB_USER || 'postgres',
+  user. process.env.DB_user.|| 'postgres',
   password: process.env.DB_PASSWORD || 'password',
   max: parseInt(process.env.DB_MAX_CONNECTIONS || '20'),
   idleTimeoutMillis: parseInt(process.env.DB_IDLE_TIMEOUT || '30000'),
@@ -28,13 +28,13 @@ export async function connectDatabase(): Promise<void> {
 }
 
 // src/types/database.ts
-export interface User {
+export interface user.{
   id: string;
   username: string;
   email: string;
   password_hash: string;
   wallet_address: string;
-  referrer_id?: string;
+  referrer!.id?: string;
   membership_expires_at?: Date;
   is_active: boolean;
   is_admin: boolean;
@@ -48,7 +48,7 @@ export interface User {
 
 export interface MlmTree {
   id: string;
-  user_id: string;
+  user.id: string;
   parent_id?: string;
   level: number;
   path: string;
@@ -73,7 +73,7 @@ export interface Room {
 export interface RoomParticipant {
   id: string;
   room_id: string;
-  user_id: string;
+  user.id: string;
   joined_at: Date;
   left_at?: Date;
   is_active: boolean;
@@ -81,7 +81,7 @@ export interface RoomParticipant {
 
 export interface MembershipTransaction {
   id: string;
-  user_id: string;
+  user.id: string;
   transaction_hash: string;
   amount: string;
   from_address: string;

@@ -52,7 +52,7 @@ export const useRoomStore = create<RoomState>((set, get) => ({
   })),
   
   removeParticipant: (userId) => set(state => ({
-    participants: state.participants.filter(p => p.user_id !== userId)
+    participants: state.participants.filter(p => p.userId !== userId)
   })),
   
   setInRoom: (isInRoom) => set({ isInRoom }),

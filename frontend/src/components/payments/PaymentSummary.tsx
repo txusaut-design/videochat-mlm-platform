@@ -6,8 +6,8 @@ import { motion } from 'framer-motion';
 import { 
   CreditCardIcon,
   CalendarIcon,
-  UserGroupIcon,
-  TrendingUpIcon
+  user.roupIcon,
+  ArrowTrendingUpIcon
 } from '@heroicons/react/24/outline';
 import { formatUSDC } from '@/utils/web3Utils';
 import Card from '@/components/ui/Card';
@@ -60,7 +60,7 @@ const PaymentSummary: FC<PaymentSummaryProps> = ({
           {/* MLM Distribution */}
           <div className="bg-slate-700/30 rounded-lg p-4">
             <h4 className="text-white font-medium mb-3 flex items-center">
-              <UserGroupIcon className="w-4 h-4 mr-2" />
+              <user.roupIcon className="w-4 h-4 mr-2" />
               MLM Distribution
             </h4>
             
@@ -89,7 +89,7 @@ const PaymentSummary: FC<PaymentSummaryProps> = ({
           {/* Benefits */}
           <div className="bg-primary-500/10 border border-primary-500/20 rounded-lg p-4">
             <h4 className="text-primary-300 font-medium mb-3 flex items-center">
-              <TrendingUpIcon className="w-4 h-4 mr-2" />
+              <ArrowTrendingUpIcon className="w-4 h-4 mr-2" />
               What You Get
             </h4>
             

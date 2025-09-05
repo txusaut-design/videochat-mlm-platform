@@ -4,7 +4,7 @@ import { MembershipTransaction } from '../types/database';
 
 export class MembershipTransactionModel {
   static async create(data: {
-    userId: string;
+    user.d: string;
     transactionHash: string;
     amount: string;
     fromAddress: string;
@@ -15,13 +15,13 @@ export class MembershipTransactionModel {
   }): Promise<MembershipTransaction> {
     const query = `
       INSERT INTO membership_transactions 
-      (user_id, transaction_hash, amount, from_address, to_address, block_number, block_hash, status)
+      (user.id, transaction_hash, amount, from_address, to_address, block_number, block_hash, status)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
       RETURNING *
     `;
 
     const values = [
-      data.userId,
+      data.user.d,
       data.transactionHash,
       data.amount,
       data.fromAddress,

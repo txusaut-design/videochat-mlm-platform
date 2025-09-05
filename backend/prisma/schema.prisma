@@ -1,0 +1,148 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model user.{
+  id                    String    @id @default(cuid())
+  username             String    @unique
+  email                String    @unique
+  password_hash        String
+  wallet_address       String?   @unique
+  referral_code        String    @unique
+  referred_by_id       String?
+  membership_expires_at DateTime?
+  is_active            Boolean   @default(true)
+  is_admin             Boolean   @default(false)
+  created_at           DateTime  @default(now())
+  updated_at           DateTime  @updatedAt
+
+  // Relations
+  referred_by          user.     @relation("user.eferrals", fields: [referred_by_id], references: [id])
+  referrals            user.]    @relation("user.eferrals")
+  
+  transactions_sent    Transaction[] @relation("TransactionSender")
+  transactions_received Transaction[] @relation("TransactionReceiver")
+  
+  mlm_commissions      MlmCommission[]
+  room_participants    RoomParticipant[]
+  created_rooms        Room[]
+  
+  @@map("user.")
+}
+
+model Transaction {
+  id              String            @id @default(cuid())
+  hash            String            @unique
+  from_address    String
+  to_address      String
+  amount          String // Store as string to avoid precision issues
+  currency        String            @default("USDC")
+  type            TransactionType
+  status          TransactionStatus @default(PENDING)
+  block_number    Int?
+  gas_used        String?
+  sender_id       String?
+  receiver_id     String?
+  created_at      DateTime          @default(now())
+  updated_at      DateTime          @updatedAt
+
+  // Relations
+  sender          user.             @relation("TransactionSender", fields: [sender_id], references: [id])
+  receiver        user.             @relation("TransactionReceiver", fields: [receiver_id], references: [id])
+  mlm_commissions MlmCommission[]
+
+  @@map("transactions")
+}
+
+model MlmCommission {
+  id             String      @id @default(cuid())
+  user.id        String
+  transaction_id String
+  level          Int // 1-5
+  amount         String
+  status         CommissionStatus @default(PENDING)
+  created_at     DateTime    @default(now())
+
+  // Relations
+  user.          user.       @relation(fields: [user.id], references: [id])
+  transaction    Transaction @relation(fields: [transaction_id], references: [id])
+
+  @@map("mlm_commissions")
+}
+
+model Room {
+  id            String    @id @default(cuid())
+  name          String
+  description   String?
+  max_participants Int    @default(10)
+  is_active     Boolean   @default(true)
+  is_private    Boolean   @default(false)
+  password      String?
+  creator_id    String
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  // Relations
+  creator       user.     @relation(fields: [creator_id], references: [id])
+  participants  RoomParticipant[]
+
+  @@map("rooms")
+}
+
+model RoomParticipant {
+  id         String   @id @default(cuid())
+  room_id    String
+  user.id    String
+  joined_at  DateTime @default(now())
+  left_at    DateTime?
+  is_active  Boolean  @default(true)
+
+  // Relations
+  room       Room     @relation(fields: [room_id], references: [id], onDelete: Cascade)
+  user.      user.    @relation(fields: [user.id], references: [id])
+
+  @@unique([room_id, user.id])
+  @@map("room_participants")
+}
+
+model SystemSettings {
+  id                    String   @id @default(cuid())
+  membership_price_usdc String   @default("10.00")
+  membership_duration_days Int   @default(28)
+  mlm_level_1_commission String @default("3.50")
+  mlm_level_2_5_commission String @default("1.00")
+  platform_fee_percentage String @default("25.00")
+  max_room_participants Int      @default(10)
+  updated_at           DateTime @updatedAt
+
+  @@map("system_settings")
+}
+
+// Enums
+enum TransactionType {
+  MEMBERSHIP_PAYMENT
+  MLM_COMMISSION
+  WITHDRAWAL
+  DEPOSIT
+}
+
+enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+  CANCELLED
+}
+
+enum CommissionStatus {
+  PENDING
+  PAID
+  FAILED
+}

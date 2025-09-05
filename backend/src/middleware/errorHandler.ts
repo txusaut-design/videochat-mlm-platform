@@ -24,7 +24,7 @@ export function errorHandler(
     url: req.url,
     method: req.method,
     ip: req.ip,
-    userAgent: req.get('User-Agent')
+    user.gent: req.get('user.Agent')
   });
 
   // Send error response

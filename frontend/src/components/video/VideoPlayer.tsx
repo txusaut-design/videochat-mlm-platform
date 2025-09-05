@@ -5,10 +5,10 @@ import { useEffect, useRef, FC } from 'react';
 import { motion } from 'framer-motion';
 import { 
   MicrophoneIcon, 
-  MicrophoneSlashIcon,
+  XMarkIcon,
   VideoCameraIcon,
   VideoCameraSlashIcon,
-  UserIcon
+  UsersIcon
 } from '@heroicons/react/24/outline';
 
 interface VideoPlayerProps {
@@ -56,13 +56,13 @@ const VideoPlayer: FC<VideoPlayerProps> = ({
       {(isVideoOff || !stream) && (
         <div className="absolute inset-0 flex items-center justify-center bg-slate-700">
           <div className="text-center">
-            <UserIcon className="w-16 h-16 text-slate-400 mx-auto mb-2" />
+            <UsersIcon className="w-16 h-16 text-slate-400 mx-auto mb-2" />
             <p className="text-slate-300 font-medium">{username}</p>
           </div>
         </div>
       )}
 
-      {/* Username and status overlay */}
+      {/* username and status overlay */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
         <div className="flex items-center justify-between">
           <span className="text-white font-medium text-sm">
@@ -71,7 +71,7 @@ const VideoPlayer: FC<VideoPlayerProps> = ({
           
           <div className="flex items-center space-x-2">
             {isMuted ? (
-              <MicrophoneSlashIcon className="w-4 h-4 text-red-400" />
+              <XMarkIcon className="w-4 h-4 text-red-400" />
             ) : (
               <MicrophoneIcon className="w-4 h-4 text-green-400" />
             )}

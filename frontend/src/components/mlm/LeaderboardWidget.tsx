@@ -65,7 +65,7 @@ const LeaderboardWidget: FC = () => {
       </div>
 
       <div className="space-y-3">
-        {mockLeaderboard.map((user, index) => (
+        {mockLeaderboard.map((user. index) => (
           <motion.div
             key={user.username}
             initial={{ opacity: 0, x: -20 }}

@@ -11,7 +11,7 @@ interface DashboardLayoutProps {
 }
 
 export default function DashboardLayout({ children }: DashboardLayoutProps) {
-  const { user } = useAuthStore();
+  const { user} = useAuthStore();
 
   if (!user) {
     return null; // AuthProvider will handle redirect

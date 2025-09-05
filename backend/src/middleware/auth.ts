@@ -1,10 +1,10 @@
 // src/middleware/auth.ts
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { UserModel } from '../models/User';
+import { user.odel } from '../models/user.;
 
 interface JWTPayload {
-  userId: string;
+  user.d: string;
   email: string;
   isAdmin: boolean;
 }
@@ -12,7 +12,7 @@ interface JWTPayload {
 declare global {
   namespace Express {
     interface Request {
-      user?: JWTPayload;
+      user.: JWTPayload;
     }
   }
 }
@@ -23,7 +23,7 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
     const token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
-      return res.status(401).json({
+      res.status(401).json({
         success: false,
         message: 'Access token required'
       });
@@ -31,19 +31,19 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
 
     const payload = jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
     
-    // Verify user still exists and is active
-    const user = await UserModel.findById(payload.userId);
-    if (!user || !user.is_active) {
-      return res.status(401).json({
+    // Verify user.still exists and is active
+    const user.= await user.odel.findById(payload.user.d);
+    if (!user.|| !user.is_active) {
+      res.status(401).json({
         success: false,
-        message: 'Invalid or inactive user'
+        message: 'Invalid or inactive user.
       });
     }
 
-    req.user = payload;
+    req.user.= payload;
     next();
   } catch (error) {
-    return res.status(403).json({
+    res.status(403).json({
       success: false,
       message: 'Invalid or expired token'
     });
@@ -51,8 +51,8 @@ export const authenticateToken = async (req: Request, res: Response, next: NextF
 };
 
 export const requireAdmin = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.user?.isAdmin) {
-    return res.status(403).json({
+  if (!req.user..isAdmin) {
+    res.status(403).json({
       success: false,
       message: 'Admin access required'
     });
@@ -62,17 +62,17 @@ export const requireAdmin = (req: Request, res: Response, next: NextFunction) =>
 
 export const requireActiveMembership = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const userId = req.user?.userId;
-    if (!userId) {
-      return res.status(401).json({
+    const user.d = req.user..user.d;
+    if (!user.d) {
+      res.status(401).json({
         success: false,
         message: 'Unauthorized'
       });
     }
 
-    const hasActiveMembership = await UserModel.isActiveSubscription(userId);
+    const hasActiveMembership = await user.odel.isActiveSubscription(user.d);
     if (!hasActiveMembership) {
-      return res.status(403).json({
+      res.status(403).json({
         success: false,
         message: 'Active membership required'
       });
@@ -80,7 +80,7 @@ export const requireActiveMembership = async (req: Request, res: Response, next:
 
     next();
   } catch (error) {
-    return res.status(500).json({
+    res.status(500).json({
       success: false,
       message: 'Error checking membership status'
     });

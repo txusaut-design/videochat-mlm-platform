@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { motion } from 'framer-motion';
 import {
   LightBulbIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
   UserPlusIcon,
   ExclamationCircleIcon,
   CheckCircleIcon
@@ -23,7 +23,7 @@ const NetworkInsights: FC<NetworkInsightsProps> = ({ mlmStats }) => {
   const insights = [
     {
       type: 'opportunity',
-      icon: TrendingUpIcon,
+      icon: ArrowTrendingUpIcon,
       title: 'Growth Opportunity',
       message: `Your Level 1 has ${mlmStats.levels.level1?.count || 0} members. Adding 2 more could increase monthly earnings by $7.`,
       action: 'Share referral link',

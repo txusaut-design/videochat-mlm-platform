@@ -7,7 +7,7 @@ import {
   CurrencyDollarIcon,
   UserGroupIcon,
   VideoCameraIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
 } from '@heroicons/react/24/outline';
 
 import { useAuthStore } from '@/store/authStore';
@@ -28,7 +28,7 @@ export default function DashboardPage() {
 
   const { data: userRooms, isLoading: loadingRooms } = useQuery(
     'user-rooms',
-    roomsApi.getUserRooms,
+    roomsApi.getuserrooms,
     { enabled: !!user?.hasActiveMembership }
   );
 
@@ -82,7 +82,7 @@ export default function DashboardPage() {
             title="This Month"
             value={mlmStats?.thisMonthCommissions || '0'}
             subtitle="USDC"
-            icon={TrendingUpIcon}
+            icon={ArrowTrendingUpIcon}
             loading={loadingMLM}
             color="text-blue-500"
           />

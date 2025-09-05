@@ -6,13 +6,13 @@ import { motion } from 'framer-motion';
 import {
   CurrencyDollarIcon,
   CalendarIcon,
-  FilterIcon,
+  FunnelIcon,
   ArrowTopRightOnSquareIcon,
   CheckCircleIcon,
   ClockIcon,
   XCircleIcon,
-  TrendingUpIcon,
-  TrendingDownIcon
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon
 } from '@heroicons/react/24/outline';
 import { MlmCommission } from '@/lib/types';
 import { formatUSDC, getExplorerUrl, formatTransactionHash } from '@/utils/web3Utils';
@@ -126,9 +126,9 @@ const CommissionHistory: FC<CommissionHistoryProps> = ({
                 monthlyGrowth >= 0 ? 'text-green-400' : 'text-red-400'
               }`}>
                 {monthlyGrowth >= 0 ? (
-                  <TrendingUpIcon className="w-4 h-4 mr-1" />
+                  <ArrowTrendingUpIcon className="w-4 h-4 mr-1" />
                 ) : (
-                  <TrendingDownIcon className="w-4 h-4 mr-1" />
+                  <ArrowTrendingDownIcon className="w-4 h-4 mr-1" />
                 )}
                 {Math.abs(monthlyGrowth).toFixed(1)}%
               </div>

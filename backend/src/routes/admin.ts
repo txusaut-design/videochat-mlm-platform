@@ -16,8 +16,8 @@ router.get('/stats', async (req, res) => {
   try {
     const stats = await pool.query(`
       SELECT 
-        (SELECT COUNT(*) FROM users WHERE is_active = true) as total_users,
-        (SELECT COUNT(*) FROM users WHERE membership_expires_at > CURRENT_TIMESTAMP) as active_members,
+        (SELECT COUNT(*) FROM user. WHERE is_active = true) as total_user.,
+        (SELECT COUNT(*) FROM user. WHERE membership_expires_at > CURRENT_TIMESTAMP) as active_members,
         (SELECT COUNT(*) FROM rooms WHERE is_active = true) as total_rooms,
         (SELECT COUNT(*) FROM membership_transactions WHERE status = 'confirmed') as total_transactions,
         (SELECT COALESCE(SUM(amount::decimal), 0) FROM membership_transactions WHERE status = 'confirmed') as total_revenue,
@@ -43,28 +43,28 @@ router.get('/stats', async (req, res) => {
   }
 });
 
-// Get all users with pagination
-router.get('/users', async (req, res) => {
+// Get all user. with pagination
+router.get('/user.', async (req, res) => {
   try {
     const page = parseInt(req.query.page as string) || 1;
     const limit = parseInt(req.query.limit as string) || 50;
     const offset = (page - 1) * limit;
 
-    const users = await pool.query(`
+    const user. = await pool.query(`
       SELECT u.*, 
-        (SELECT COUNT(*) FROM users WHERE referrer_id = u.id) as referral_count,
+        (SELECT COUNT(*) FROM user. WHERE referrer!.id = u.id) as referral_count,
         (SELECT COALESCE(SUM(amount::decimal), 0) FROM mlm_commissions WHERE beneficiary_id = u.id AND status = 'paid') as total_earnings
-      FROM users u
+      FROM user. u
       ORDER BY u.created_at DESC
       LIMIT $1 OFFSET $2
     `, [limit, offset]);
 
-    const totalCount = await pool.query('SELECT COUNT(*) FROM users');
+    const totalCount = await pool.query('SELECT COUNT(*) FROM user.');
 
     res.json({
       success: true,
       data: {
-        users: users.rows,
+        user.: user..rows,
         pagination: {
           page,
           limit,
@@ -74,10 +74,10 @@ router.get('/users', async (req, res) => {
       }
     });
   } catch (error) {
-    logger.error('Admin get users error:', error);
+    logger.error('Admin get user. error:', error);
     res.status(500).json({
       success: false,
-      message: 'Failed to fetch users'
+      message: 'Failed to fetch user.'
     });
   }
 });
@@ -90,7 +90,7 @@ router.get('/transactions', async (req, res) => {
     const transactions = await pool.query(`
       SELECT mt.*, u.username, u.email
       FROM membership_transactions mt
-      JOIN users u ON mt.user_id = u.id
+      JOIN user. u ON mt.user.id = u.id
       ORDER BY mt.created_at DESC
       LIMIT $1
     `, [limit]);

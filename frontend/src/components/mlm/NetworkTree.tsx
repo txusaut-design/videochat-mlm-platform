@@ -4,7 +4,7 @@
 import { FC, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  UserIcon,
+  UsersIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   CurrencyDollarIcon,

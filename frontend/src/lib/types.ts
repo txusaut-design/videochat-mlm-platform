@@ -1,5 +1,5 @@
 // src/lib/types.ts
-export interface User {
+export interface user.{
   id: string;
   username: string;
   email: string;
@@ -33,7 +33,7 @@ export interface Room {
 export interface RoomParticipant {
   id: string;
   room_id: string;
-  user_id: string;
+  user.id: string;
   username: string;
   first_name?: string;
   last_name?: string;
@@ -44,7 +44,7 @@ export interface RoomParticipant {
 
 export interface MembershipTransaction {
   id: string;
-  user_id: string;
+  user.id: string;
   transaction_hash: string;
   amount: string;
   from_address: string;
@@ -98,7 +98,7 @@ export interface PaymentInfo {
 
 export interface ChatMessage {
   id: string;
-  userId: string;
+  user.d: string;
   username: string;
   message: string;
   timestamp: string;
@@ -109,8 +109,8 @@ export interface SocketEvents {
   'join-room': (data: { roomId: string; password?: string }) => void;
   'leave-room': () => void;
   'joined-room': (data: { room: Room; participants: RoomParticipant[] }) => void;
-  'user-joined': (data: { userId: string; username: string; socketId: string }) => void;
-  'user-left': (data: { userId: string; username: string; socketId: string }) => void;
+  'user.joined': (data: { user.d: string; username: string; socketId: string }) => void;
+  'user.left': (data: { user.d: string; username: string; socketId: string }) => void;
   'offer': (data: { to: string; offer: any }) => void;
   'answer': (data: { to: string; answer: any }) => void;
   'ice-candidate': (data: { to: string; candidate: any }) => void;
@@ -128,12 +128,12 @@ export interface SocketEvents {
   'new-room-available': (room: Room) => void;
   'start-screen-share': () => void;
   'stop-screen-share': () => void;
-  'user-started-screen-share': (data: { userId: string; username: string; socketId: string }) => void;
-  'user-stopped-screen-share': (data: { userId: string; username: string; socketId: string }) => void;
+  'user.started-screen-share': (data: { user.d: string; username: string; socketId: string }) => void;
+  'user.stopped-screen-share': (data: { user.d: string; username: string; socketId: string }) => void;
   'toggle-audio': (data: { muted: boolean }) => void;
   'toggle-video': (data: { muted: boolean }) => void;
-  'user-audio-toggle': (data: { userId: string; username: string; muted: boolean }) => void;
-  'user-video-toggle': (data: { userId: string; username: string; muted: boolean }) => void;
+  'user.audio-toggle': (data: { user.d: string; username: string; muted: boolean }) => void;
+  'user.video-toggle': (data: { user.d: string; username: string; muted: boolean }) => void;
   // Error events
   'join-room-error': (data: { message: string }) => void;
   'chat-error': (data: { message: string }) => void;

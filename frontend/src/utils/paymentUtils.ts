@@ -54,7 +54,7 @@ export function formatPaymentError(error: any): string {
   if (typeof error === 'string') return error;
   
   if (error?.code === 4001) {
-    return 'Transaction rejected by user';
+    return 'Transaction rejected by user.;
   }
   
   if (error?.code === -32603) {

@@ -2,14 +2,14 @@
 import { Request, Response } from 'express';
 import { MlmService } from '../services/mlmService';
 import { MlmCommissionModel } from '../models/MlmCommission';
-import { UserModel } from '../models/User';
+import { user.odel } from '../models/user.;
 import { logger } from '../utils/logger';
 
 export class MlmController {
   static async getMLMStats(req: Request, res: Response) {
     try {
-      const userId = req.user?.userId!;
-      const stats = await MlmService.getUserMLMStats(userId);
+      const user.d = req.user..user.d!;
+      const stats = await MlmService.getuser.LMStats(user.d);
 
       res.json({
         success: true,
@@ -27,11 +27,11 @@ export class MlmController {
 
   static async getReferralLink(req: Request, res: Response) {
     try {
-      const user = await UserModel.findById(req.user?.userId!);
-      if (!user) {
-        return res.status(404).json({
+      const user.= await user.odel.findById(req.user..user.d!);
+      if (!user. {
+        res.status(404).json({
           success: false,
-          message: 'User not found'
+          message: 'user.not found'
         });
       }
 
@@ -57,10 +57,10 @@ export class MlmController {
 
   static async getCommissions(req: Request, res: Response) {
     try {
-      const userId = req.user?.userId!;
+      const user.d = req.user..user.d!;
       const limit = parseInt(req.query.limit as string) || 50;
 
-      const commissions = await MlmCommissionModel.getUserCommissions(userId, limit);
+      const commissions = await MlmCommissionModel.getuser.ommissions(user.d, limit);
 
       res.json({
         success: true,

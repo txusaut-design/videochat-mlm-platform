@@ -36,7 +36,7 @@ export default function RoomsPage() {
 
   const { data: userRooms } = useQuery(
     'user-rooms',
-    roomsApi.getUserRooms,
+    roomsApi.getuserrooms,
     {
       enabled: !!user?.hasActiveMembership,
     }

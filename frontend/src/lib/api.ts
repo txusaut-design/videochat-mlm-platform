@@ -3,7 +3,7 @@ import axios, { AxiosResponse } from 'axios';
 import { useAuthStore } from '@/store/authStore';
 import toast from 'react-hot-toast';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
 
 // Create axios instance
 const api = axios.create({
@@ -128,7 +128,7 @@ export const roomsApi = {
     await api.post(`/rooms/${roomId}/leave`);
   },
 
-  getUserRooms: async (): Promise<Room[]> => {
+  getuserrooms: async (): Promise<Room[]> => {
     const response: AxiosResponse<ApiResponse<Room[]>> = 
       await api.get('/rooms/my-rooms');
     return response.data.data!;
@@ -175,11 +175,11 @@ export const mlmApi = {
   },
 };
 
-// Users API
-export const usersApi = {
-  getProfile: async (): Promise<{ user: User }> => {
-    const response: AxiosResponse<ApiResponse<{ user: User }>> = 
-      await api.get('/users/profile');
+// userApi
+export const userApi = {
+  getProfile: async (): Promise<{ user: any }> => {
+    const response: AxiosResponse<ApiResponse<{ user: any }>> = 
+      await api.get('/user/profile');
     return response.data.data!;
   },
 };

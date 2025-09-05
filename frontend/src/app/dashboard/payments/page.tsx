@@ -33,7 +33,7 @@ export default function PaymentsPage() {
 
   const handlePaymentSuccess = () => {
     refetch();
-    // Force refresh user data
+    // Force refresh userData
     window.location.reload();
   };
 
@@ -42,7 +42,7 @@ export default function PaymentsPage() {
       return { status: 'inactive', daysLeft: 0 };
     }
 
-    const expiryDate = new Date(user.membershipExpiresAt);
+    const expiryDate = new Date(user?.membershipExpiresAt);
     const now = new Date();
     const daysLeft = Math.max(0, Math.ceil((expiryDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)));
     

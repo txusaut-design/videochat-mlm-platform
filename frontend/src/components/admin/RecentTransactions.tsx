@@ -17,7 +17,7 @@ import { formatUSDC, getExplorerUrl, formatTransactionHash } from '@/utils/web3U
 const mockTransactions = [
   {
     id: '1',
-    user: 'john.doe',
+    username: 'john.doe',
     type: 'membership',
     amount: '10.00',
     status: 'confirmed',
@@ -26,7 +26,7 @@ const mockTransactions = [
   },
   {
     id: '2',
-    user: 'alice.smith',
+    username: 'alice.smith',
     type: 'commission',
     amount: '3.50',
     status: 'pending',
@@ -35,7 +35,7 @@ const mockTransactions = [
   },
   {
     id: '3',
-    user: 'bob.wilson',
+    username: 'bob.wilson',
     type: 'membership',
     amount: '10.00',
     status: 'confirmed',
@@ -44,7 +44,7 @@ const mockTransactions = [
   },
   {
     id: '4',
-    user: 'carol.jones',
+    username: 'carol.jones',
     type: 'commission',
     amount: '1.00',
     status: 'failed',
@@ -109,7 +109,7 @@ const RecentTransactions: FC = () => {
 
               <div>
                 <div className="font-medium text-white">
-                  {transaction.user}
+                  {transaction.username}
                 </div>
                 <div className="text-sm text-slate-400">
                   {transaction.type === 'membership' ? 'Membership Payment' : 'MLM Commission'}

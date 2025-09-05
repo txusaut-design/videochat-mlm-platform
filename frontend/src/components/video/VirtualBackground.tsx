@@ -1,7 +1,7 @@
 // src/components/video/VirtualBackground.tsx
 'use client';
 
-import { FC, useRef, useEffect, useState } from 'react';
+import { FC, user.f, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import Button from '@/components/ui/Button';
@@ -29,8 +29,8 @@ const VirtualBackground: FC<VirtualBackgroundProps> = ({
   onClose
 }) => {
   const [selectedBackground, setSelectedBackground] = useState<string>('none');
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const videoRef = user.f<HTMLVideoElement>(null);
+  const canvasRef = user.f<HTMLCanvasElement>(null);
 
   useEffect(() => {
     if (videoRef.current && stream) {

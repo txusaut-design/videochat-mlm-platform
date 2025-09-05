@@ -5,7 +5,7 @@ import { FC, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import {
   ChartBarIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
   UsersIcon,
   CurrencyDollarIcon
 } from '@heroicons/react/24/outline';

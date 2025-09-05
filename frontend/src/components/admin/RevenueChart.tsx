@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
   CurrencyDollarIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
   CalendarIcon
 } from '@heroicons/react/24/outline';
 import Card from '@/components/ui/Card';
@@ -77,7 +77,7 @@ const RevenueChart: FC = () => {
 
         <div className="bg-blue-500/10 border border-blue-500/20 rounded-lg p-4">
           <div className="flex items-center space-x-2 mb-2">
-            <TrendingUpIcon className="w-5 h-5 text-blue-400" />
+            <ArrowTrendingUpIcon className="w-5 h-5 text-blue-400" />
             <span className="text-sm text-blue-400">Growth Rate</span>
           </div>
           <div className="text-2xl font-bold text-white">
@@ -117,7 +117,7 @@ const RevenueChart: FC = () => {
           Average: ${Math.round(currentData.total / currentData.data.length).toLocaleString()}
         </div>
         <div className="flex items-center text-sm text-green-400">
-          <TrendingUpIcon className="w-4 h-4 mr-1" />
+          <ArrowTrendingUpIcon className="w-4 h-4 mr-1" />
           +{currentData.growth}% vs previous period
         </div>
       </div>

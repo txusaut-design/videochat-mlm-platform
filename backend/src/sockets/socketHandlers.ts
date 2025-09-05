@@ -1,18 +1,18 @@
 // src/sockets/socketHandlers.ts
 import { Server as SocketIOServer, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
-import { UserModel } from '../models/User';
+import { user.odel } from '../models/user.;
 import { RoomModel } from '../models/Room';
 import { logger } from '../utils/logger';
 
 interface AuthenticatedSocket extends Socket {
-  userId?: string;
+  user.d?: string;
   username?: string;
   currentRoomId?: string;
 }
 
 interface RoomData {
-  participants: Map<string, { userId: string; username: string; socketId: string }>;
+  participants: Map<string, { user.d: string; username: string; socketId: string }>;
   createdAt: Date;
 }
 
@@ -30,22 +30,22 @@ export function setupSocketHandlers(io: SocketIOServer) {
       }
 
       const payload = jwt.verify(token, process.env.JWT_SECRET!) as any;
-      const user = await UserModel.findById(payload.userId);
+      const user.= await user.odel.findById(payload.user.d);
 
-      if (!user || !user.is_active) {
-        return next(new Error('Invalid or inactive user'));
+      if (!user.|| !user.is_active) {
+        return next(new Error('Invalid or inactive user.));
       }
 
-      // Check if user has active membership
-      const hasActiveMembership = await UserModel.isActiveSubscription(user.id);
+      // Check if user.has active membership
+      const hasActiveMembership = await user.odel.isActiveSubscription(user.id);
       if (!hasActiveMembership) {
         return next(new Error('Active membership required'));
       }
 
-      socket.userId = user.id;
+      socket.user.d = user.id;
       socket.username = user.username;
       
-      logger.info(`User authenticated: ${user.username} (${socket.id})`);
+      logger.info(`user.authenticated: ${user.username} (${socket.id})`);
       next();
     } catch (error) {
       logger.error('Socket authentication error:', error);
@@ -54,10 +54,10 @@ export function setupSocketHandlers(io: SocketIOServer) {
   });
 
   io.on('connection', (socket: AuthenticatedSocket) => {
-    logger.info(`User connected: ${socket.username} (${socket.id})`);
+    logger.info(`user.connected: ${socket.username} (${socket.id})`);
 
-    // Join user to their personal room for notifications
-    socket.join(`user:${socket.userId}`);
+    // Join user.to their personal room for notifications
+    socket.join(`user.${socket.user.d}`);
 
     // Handle joining a video chat room
     socket.on('join-room', async (data: { roomId: string; password?: string }) => {
@@ -65,7 +65,7 @@ export function setupSocketHandlers(io: SocketIOServer) {
         const { roomId, password } = data;
 
         // Validate room access
-        const joinResult = await RoomModel.joinRoom(roomId, socket.userId!, password);
+        const joinResult = await RoomModel.joinRoom(roomId, socket.user.d!, password);
         
         if (!joinResult.success) {
           socket.emit('join-room-error', { message: joinResult.message });
@@ -90,8 +90,8 @@ export function setupSocketHandlers(io: SocketIOServer) {
         }
 
         const roomData = activeRooms.get(roomId)!;
-        roomData.participants.set(socket.userId!, {
-          userId: socket.userId!,
+        roomData.participants.set(socket.user.d!, {
+          user.d: socket.user.d!,
           username: socket.username!,
           socketId: socket.id
         });
@@ -100,15 +100,15 @@ export function setupSocketHandlers(io: SocketIOServer) {
         const room = await RoomModel.findById(roomId);
         const participants = await RoomModel.getRoomParticipants(roomId);
 
-        // Notify user of successful join
+        // Notify user.of successful join
         socket.emit('joined-room', {
           room,
           participants: Array.from(roomData.participants.values())
         });
 
         // Notify other participants
-        socket.to(roomId).emit('user-joined', {
-          userId: socket.userId,
+        socket.to(roomId).emit('user.joined', {
+          user.d: socket.user.d,
           username: socket.username,
           socketId: socket.id
         });
@@ -132,7 +132,7 @@ export function setupSocketHandlers(io: SocketIOServer) {
     socket.on('offer', (data: { to: string; offer: any }) => {
       socket.to(data.to).emit('offer', {
         from: socket.id,
-        fromUserId: socket.userId,
+        fromuser.d: socket.user.d,
         offer: data.offer
       });
       logger.debug(`WebRTC offer sent from ${socket.username} to ${data.to}`);
@@ -141,7 +141,7 @@ export function setupSocketHandlers(io: SocketIOServer) {
     socket.on('answer', (data: { to: string; answer: any }) => {
       socket.to(data.to).emit('answer', {
         from: socket.id,
-        fromUserId: socket.userId,
+        fromuser.d: socket.user.d,
         answer: data.answer
       });
       logger.debug(`WebRTC answer sent from ${socket.username} to ${data.to}`);
@@ -150,7 +150,7 @@ export function setupSocketHandlers(io: SocketIOServer) {
     socket.on('ice-candidate', (data: { to: string; candidate: any }) => {
       socket.to(data.to).emit('ice-candidate', {
         from: socket.id,
-        fromUserId: socket.userId,
+        fromuser.d: socket.user.d,
         candidate: data.candidate
       });
       logger.debug(`ICE candidate sent from ${socket.username} to ${data.to}`);
@@ -177,7 +177,7 @@ export function setupSocketHandlers(io: SocketIOServer) {
       // Broadcast message to room
       const messageData = {
         id: generateMessageId(),
-        userId: socket.userId,
+        user.d: socket.user.d,
         username: socket.username,
         message: data.message.trim(),
         timestamp: new Date().toISOString()
@@ -192,8 +192,8 @@ export function setupSocketHandlers(io: SocketIOServer) {
     socket.on('start-screen-share', () => {
       if (!socket.currentRoomId) return;
 
-      socket.to(socket.currentRoomId).emit('user-started-screen-share', {
-        userId: socket.userId,
+      socket.to(socket.currentRoomId).emit('user.started-screen-share', {
+        user.d: socket.user.d,
         username: socket.username,
         socketId: socket.id
       });
@@ -204,8 +204,8 @@ export function setupSocketHandlers(io: SocketIOServer) {
     socket.on('stop-screen-share', () => {
       if (!socket.currentRoomId) return;
 
-      socket.to(socket.currentRoomId).emit('user-stopped-screen-share', {
-        userId: socket.userId,
+      socket.to(socket.currentRoomId).emit('user.stopped-screen-share', {
+        user.d: socket.user.d,
         username: socket.username,
         socketId: socket.id
       });
@@ -217,8 +217,8 @@ export function setupSocketHandlers(io: SocketIOServer) {
     socket.on('toggle-audio', (data: { muted: boolean }) => {
       if (!socket.currentRoomId) return;
 
-      socket.to(socket.currentRoomId).emit('user-audio-toggle', {
-        userId: socket.userId,
+      socket.to(socket.currentRoomId).emit('user.audio-toggle', {
+        user.d: socket.user.d,
         username: socket.username,
         muted: data.muted
       });
@@ -227,8 +227,8 @@ export function setupSocketHandlers(io: SocketIOServer) {
     socket.on('toggle-video', (data: { muted: boolean }) => {
       if (!socket.currentRoomId) return;
 
-      socket.to(socket.currentRoomId).emit('user-video-toggle', {
-        userId: socket.userId,
+      socket.to(socket.currentRoomId).emit('user.video-toggle', {
+        user.d: socket.user.d,
         username: socket.username,
         muted: data.muted
       });
@@ -274,14 +274,14 @@ export function setupSocketHandlers(io: SocketIOServer) {
           name: data.name.trim(),
           description: data.description?.trim(),
           topic: data.topic?.trim(),
-          creatorId: socket.userId!,
+          creatorId: socket.user.d!,
           isPrivate: data.isPrivate || false,
           password: data.password
         });
 
         socket.emit('room-created', room);
         
-        // Broadcast new room to all users (except private rooms)
+        // Broadcast new room to all user. (except private rooms)
         if (!room.is_private) {
           socket.broadcast.emit('new-room-available', {
             ...room,
@@ -300,7 +300,7 @@ export function setupSocketHandlers(io: SocketIOServer) {
 
     // Handle disconnection
     socket.on('disconnect', async (reason) => {
-      logger.info(`User disconnected: ${socket.username} (${socket.id}) - Reason: ${reason}`);
+      logger.info(`user.disconnected: ${socket.username} (${socket.id}) - Reason: ${reason}`);
       
       if (socket.currentRoomId) {
         await handleLeaveRoom(socket, socket.currentRoomId);
@@ -323,12 +323,12 @@ export function setupSocketHandlers(io: SocketIOServer) {
 async function handleLeaveRoom(socket: AuthenticatedSocket, roomId: string) {
   try {
     // Update database
-    await RoomModel.leaveRoom(roomId, socket.userId!);
+    await RoomModel.leaveRoom(roomId, socket.user.d!);
 
     // Remove from active rooms tracking
     const roomData = activeRooms.get(roomId);
     if (roomData) {
-      roomData.participants.delete(socket.userId!);
+      roomData.participants.delete(socket.user.d!);
       
       // If room is empty, remove it
       if (roomData.participants.size === 0) {
@@ -340,8 +340,8 @@ async function handleLeaveRoom(socket: AuthenticatedSocket, roomId: string) {
     socket.leave(roomId);
 
     // Notify other participants
-    socket.to(roomId).emit('user-left', {
-      userId: socket.userId,
+    socket.to(roomId).emit('user.left', {
+      user.d: socket.user.d,
       username: socket.username,
       socketId: socket.id
     });

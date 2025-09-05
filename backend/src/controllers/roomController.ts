@@ -45,7 +45,7 @@ export class RoomController {
       const room = await RoomModel.findById(roomId);
 
       if (!room) {
-        return res.status(404).json({
+        res.status(404).json({
           success: false,
           message: 'Room not found'
         });
@@ -76,20 +76,20 @@ export class RoomController {
     try {
       const { error, value } = createRoomSchema.validate(req.body);
       if (error) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           message: 'Validation error',
           details: error.details[0].message
         });
       }
 
-      const userId = req.user?.userId!;
+      const user.d = req.user..user.d!;
       const room = await RoomModel.create({
         ...value,
-        creatorId: userId
+        creatorId: user.d
       });
 
-      logger.info(`Room created: ${room.name} by user ${userId}`);
+      logger.info(`Room created: ${room.name} by user.${user.d}`);
 
       res.status(201).json({
         success: true,
@@ -106,10 +106,10 @@ export class RoomController {
     }
   }
 
-  static async getUserRooms(req: Request, res: Response) {
+  static async getuserrooms(req: Request, res: Response) {
     try {
-      const userId = req.user?.userId!;
-      const rooms = await RoomModel.getUserRooms(userId);
+      const user.d = req.user..user.d!;
+      const rooms = await RoomModel.getuserrooms(user.d);
 
       // Add real-time participant count
       const roomsWithParticipants = rooms.map(room => ({
@@ -123,10 +123,10 @@ export class RoomController {
       });
 
     } catch (error) {
-      logger.error('Get user rooms error:', error);
+      logger.error('Get user.rooms error:', error);
       res.status(500).json({
         success: false,
-        message: 'Failed to fetch user rooms'
+        message: 'Failed to fetch user.rooms'
       });
     }
   }
@@ -135,9 +135,9 @@ export class RoomController {
     try {
       const { roomId } = req.params;
       const { password } = req.body;
-      const userId = req.user?.userId!;
+      const user.d = req.user..user.d!;
 
-      const result = await RoomModel.joinRoom(roomId, userId, password);
+      const result = await RoomModel.joinRoom(roomId, user.d, password);
 
       if (result.success) {
         res.json({
@@ -163,9 +163,9 @@ export class RoomController {
   static async leaveRoom(req: Request, res: Response) {
     try {
       const { roomId } = req.params;
-      const userId = req.user?.userId!;
+      const user.d = req.user..user.d!;
 
-      await RoomModel.leaveRoom(roomId, userId);
+      await RoomModel.leaveRoom(roomId, user.d);
 
       res.json({
         success: true,

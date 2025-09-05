@@ -1,4 +1,4 @@
-/ src/components/video/VideoGrid.tsx
+// src/components/video/VideoGrid.tsx
 'use client';
 
 import { FC } from 'react';
@@ -62,13 +62,13 @@ const VideoGrid: FC<VideoGridProps> = ({
 
           {/* Remote videos */}
           {participants
-            .filter(participant => participant.user_id !== currentUserId)
+            .filter(participant => participant.userId !== currentUserId)
             .slice(0, 11) // Limit to 11 remote participants + 1 local = 12 total
             .map((participant) => {
               const stream = remoteStreams.get(participant.id);
               return (
                 <motion.div
-                  key={`remote-${participant.user_id}`}
+                  key={`remote-${participant.userId}`}
                   layout
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}

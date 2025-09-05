@@ -29,7 +29,7 @@ const fetchTransactions = async (page = 1, search = '', status = 'all', type = '
     {
       id: '1',
       txHash: '0x1234567890abcdef1234567890abcdef12345678',
-      user: 'john_doe',
+      username: 'john_doe',
       email: 'john@example.com',
       type: 'membership',
       amount: '10.00',
@@ -43,7 +43,7 @@ const fetchTransactions = async (page = 1, search = '', status = 'all', type = '
     {
       id: '2',
       txHash: '0x2345678901bcdef12345678901bcdef123456789',
-      user: 'alice_smith',
+      username: 'alice_smith',
       email: 'alice@example.com',
       type: 'commission',
       amount: '3.50',
@@ -57,7 +57,7 @@ const fetchTransactions = async (page = 1, search = '', status = 'all', type = '
     {
       id: '3',
       txHash: '0x3456789012cdef123456789012cdef1234567890',
-      user: 'bob_wilson',
+      username: 'bob_wilson',
       email: 'bob@example.com',
       type: 'membership',
       amount: '10.00',
@@ -71,7 +71,7 @@ const fetchTransactions = async (page = 1, search = '', status = 'all', type = '
     {
       id: '4',
       txHash: '0x456789013def123456789013def12345678901a',
-      user: 'carol_jones',
+      username: 'carol_jones',
       email: 'carol@example.com',
       type: 'commission',
       amount: '1.00',
@@ -89,7 +89,7 @@ const fetchTransactions = async (page = 1, search = '', status = 'all', type = '
   
   if (search) {
     filteredTransactions = filteredTransactions.filter(tx => 
-      tx.user.toLowerCase().includes(search.toLowerCase()) ||
+      tx.username.toLowerCase().includes(search.toLowerCase()) ||
       tx.email.toLowerCase().includes(search.toLowerCase()) ||
       tx.txHash.toLowerCase().includes(search.toLowerCase())
     );
@@ -322,7 +322,7 @@ export default function AdminTransactionsPage() {
                       </td>
 
                       <td className="py-4">
-                        <div className="font-medium text-white">{tx.user}</div>
+                        <div className="font-medium text-white">{tx.username}</div>
                         <div className="text-sm text-slate-400">{tx.email}</div>
                       </td>
 

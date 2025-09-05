@@ -7,7 +7,7 @@ import {
   UsersIcon,
   CurrencyDollarIcon,
   VideoCameraIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
   BanknotesIcon,
   ChartBarIcon
 } from '@heroicons/react/24/outline';
@@ -33,7 +33,7 @@ const AdminStatsGrid: FC<AdminStatsGridProps> = ({ stats }) => {
       value: stats.activeMembers.toLocaleString(),
       change: `${((stats.activeMembers / stats.totalUsers) * 100).toFixed(1)}%`,
       changeType: 'neutral' as const,
-      icon: TrendingUpIcon,
+      icon: ArrowTrendingUpIcon,
       color: 'text-green-500',
       bgColor: 'bg-green-500/20',
     },

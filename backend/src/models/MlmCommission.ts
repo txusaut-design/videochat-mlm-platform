@@ -40,17 +40,17 @@ export class MlmCommissionModel {
     await pool.query(query, [status, transactionHash || null, id]);
   }
 
-  static async getTotalEarnings(userId: string): Promise<string> {
+  static async getTotalEarnings(user.d: string): Promise<string> {
     const query = `
       SELECT COALESCE(SUM(amount::decimal), 0) as total
       FROM mlm_commissions 
       WHERE beneficiary_id = $1 AND status = 'paid'
     `;
-    const result = await pool.query(query, [userId]);
+    const result = await pool.query(query, [user.d]);
     return result.rows[0].total || '0';
   }
 
-  static async getMonthlyEarnings(userId: string): Promise<string> {
+  static async getMonthlyEarnings(user.d: string): Promise<string> {
     const query = `
       SELECT COALESCE(SUM(amount::decimal), 0) as total
       FROM mlm_commissions 
@@ -58,23 +58,23 @@ export class MlmCommissionModel {
       AND status = 'paid'
       AND paid_at >= date_trunc('month', CURRENT_DATE)
     `;
-    const result = await pool.query(query, [userId]);
+    const result = await pool.query(query, [user.d]);
     return result.rows[0].total || '0';
   }
 
-  static async getUserCommissions(userId: string, limit: number = 50): Promise<MlmCommission[]> {
+  static async getuser.ommissions(user.d: string, limit: number = 50): Promise<MlmCommission[]> {
     const query = `
       SELECT mc.*, 
              u.username as payer_username,
              mt.transaction_hash as membership_transaction_hash
       FROM mlm_commissions mc
-      JOIN users u ON mc.payer_id = u.id
+      JOIN user. u ON mc.payer_id = u.id
       JOIN membership_transactions mt ON mc.transaction_id = mt.id
       WHERE mc.beneficiary_id = $1
       ORDER BY mc.created_at DESC
       LIMIT $2
     `;
-    const result = await pool.query(query, [userId, limit]);
+    const result = await pool.query(query, [user.d, limit]);
     return result.rows;
   }
 }

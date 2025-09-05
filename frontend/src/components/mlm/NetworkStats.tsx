@@ -6,7 +6,7 @@ import { motion } from 'framer-motion';
 import {
   UserGroupIcon,
   CurrencyDollarIcon,
-  TrendingUpIcon,
+  ArrowTrendingUpIcon,
   CalendarIcon,
   ChartBarIcon,
   StarIcon
@@ -55,7 +55,7 @@ const NetworkStats: FC<NetworkStatsProps> = ({ mlmStats }) => {
       title: 'This Month',
       value: formatUSDC(mlmStats.thisMonthCommissions),
       subtitle: 'earnings',
-      icon: TrendingUpIcon,
+      icon: ArrowTrendingUpIcon,
       color: 'text-amber-500',
       bgColor: 'bg-amber-500/20',
       change: '+23%',
@@ -101,7 +101,7 @@ const NetworkStats: FC<NetworkStatsProps> = ({ mlmStats }) => {
                       ? 'text-green-400' 
                       : 'text-red-400'
                   }`}>
-                    <TrendingUpIcon className="w-4 h-4 mr-1" />
+                    <ArrowTrendingUpIcon className="w-4 h-4 mr-1" />
                     {stat.change}
                   </div>
                 </div>

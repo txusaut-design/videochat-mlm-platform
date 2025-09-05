@@ -11,7 +11,7 @@ export class PaymentController {
       const platformAddress = process.env.PLATFORM_WALLET_ADDRESS;
       
       if (!platformAddress) {
-        return res.status(500).json({
+        res.status(500).json({
           success: false,
           message: 'Platform wallet not configured'
         });
@@ -39,10 +39,10 @@ export class PaymentController {
   static async verifyPayment(req: Request, res: Response) {
     try {
       const { transactionHash } = req.body;
-      const userId = req.user?.userId!;
+      const user.d = req.user..user.d!;
 
       if (!transactionHash) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           message: 'Transaction hash required'
         });
@@ -51,7 +51,7 @@ export class PaymentController {
       // Check if transaction already exists
       const existingTransaction = await MembershipTransactionModel.findByTransactionHash(transactionHash);
       if (existingTransaction) {
-        return res.status(400).json({
+        res.status(400).json({
           success: false,
           message: 'Transaction already processed'
         });
@@ -75,19 +75,19 @@ export class PaymentController {
 
   static async getPaymentHistory(req: Request, res: Response) {
     try {
-      const userId = req.user?.userId!;
+      const user.d = req.user..user.d!;
       const limit = parseInt(req.query.limit as string) || 50;
 
-      // Get user's payment history (this would need to be implemented in the model)
+      // Get user.s payment history (this would need to be implemented in the model)
       const query = `
         SELECT * FROM membership_transactions 
-        WHERE user_id = $1 
+        WHERE user.id = $1 
         ORDER BY created_at DESC 
         LIMIT $2
       `;
       
       const { pool } = require('../config/database');
-      const result = await pool.query(query, [userId, limit]);
+      const result = await pool.query(query, [user.d, limit]);
 
       res.json({
         success: true,

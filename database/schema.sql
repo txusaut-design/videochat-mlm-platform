@@ -1,13 +1,13 @@
 -- VideoChat MLM Platform Database Schema
 
 -- Tabla de usuarios
-CREATE TABLE users (
+CREATE TABLE user. (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     wallet_address VARCHAR(42) UNIQUE NOT NULL,
-    referrer_id UUID REFERENCES users(id),
+    referrer!.id UUID REFERENCES user.(id),
     membership_expires_at TIMESTAMP,
     is_active BOOLEAN DEFAULT true,
     is_admin BOOLEAN DEFAULT false,
@@ -24,13 +24,13 @@ CREATE TABLE users (
 -- Tabla para el árbol genealógico MLM
 CREATE TABLE mlm_tree (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES users(id),
-    parent_id UUID REFERENCES users(id),
+    user.id UUID NOT NULL REFERENCES user.(id),
+    parent_id UUID REFERENCES user.(id),
     level INTEGER NOT NULL DEFAULT 1,
     path TEXT NOT NULL, -- Ruta completa en el árbol (ej: "1.2.3.4.5")
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
-    UNIQUE(user_id)
+    UNIQUE(user.id)
 );
 
 -- Tabla de salas de videochat
@@ -39,7 +39,7 @@ CREATE TABLE rooms (
     name VARCHAR(100) NOT NULL,
     description TEXT,
     topic VARCHAR(200),
-    creator_id UUID NOT NULL REFERENCES users(id),
+    creator_id UUID NOT NULL REFERENCES user.(id),
     max_participants INTEGER DEFAULT 10,
     current_participants INTEGER DEFAULT 0,
     is_active BOOLEAN DEFAULT true,
@@ -53,18 +53,18 @@ CREATE TABLE rooms (
 CREATE TABLE room_participants (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     room_id UUID NOT NULL REFERENCES rooms(id),
-    user_id UUID NOT NULL REFERENCES users(id),
+    user.id UUID NOT NULL REFERENCES user.(id),
     joined_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     left_at TIMESTAMP,
     is_active BOOLEAN DEFAULT true,
     
-    UNIQUE(room_id, user_id, joined_at)
+    UNIQUE(room_id, user.id, joined_at)
 );
 
 -- Tabla de transacciones de membresía
 CREATE TABLE membership_transactions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES users(id),
+    user.id UUID NOT NULL REFERENCES user.(id),
     transaction_hash VARCHAR(66) UNIQUE NOT NULL, -- Hash de la transacción en Polygon
     amount DECIMAL(18,6) NOT NULL, -- Cantidad en USDC (18 decimales)
     from_address VARCHAR(42) NOT NULL,
@@ -81,8 +81,8 @@ CREATE TABLE membership_transactions (
 CREATE TABLE mlm_commissions (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     transaction_id UUID NOT NULL REFERENCES membership_transactions(id),
-    beneficiary_id UUID NOT NULL REFERENCES users(id), -- Usuario que recibe la comisión
-    payer_id UUID NOT NULL REFERENCES users(id), -- Usuario que pagó la membresía
+    beneficiary_id UUID NOT NULL REFERENCES user.(id), -- Usuario que recibe la comisión
+    payer_id UUID NOT NULL REFERENCES user.(id), -- Usuario que pagó la membresía
     level INTEGER NOT NULL, -- Nivel en el MLM (1-5)
     amount DECIMAL(18,6) NOT NULL, -- Cantidad de comisión en USDC
     status VARCHAR(20) DEFAULT 'pending', -- pending, paid, failed
@@ -95,7 +95,7 @@ CREATE TABLE mlm_commissions (
 CREATE TABLE room_messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     room_id UUID NOT NULL REFERENCES rooms(id),
-    user_id UUID NOT NULL REFERENCES users(id),
+    user.id UUID NOT NULL REFERENCES user.(id),
     message TEXT NOT NULL,
     message_type VARCHAR(20) DEFAULT 'text', -- text, system, announcement
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -111,15 +111,15 @@ CREATE TABLE system_config (
 );
 
 -- Índices para optimización
-CREATE INDEX idx_users_referrer ON users(referrer_id);
-CREATE INDEX idx_users_membership ON users(membership_expires_at);
+CREATE INDEX idx_user._referrer!.ON user.(referrer!.id);
+CREATE INDEX idx_user._membership ON user.(membership_expires_at);
 CREATE INDEX idx_mlm_tree_parent ON mlm_tree(parent_id);
 CREATE INDEX idx_mlm_tree_level ON mlm_tree(level);
 CREATE INDEX idx_rooms_creator ON rooms(creator_id);
 CREATE INDEX idx_rooms_active ON rooms(is_active);
 CREATE INDEX idx_room_participants_room ON room_participants(room_id);
-CREATE INDEX idx_room_participants_user ON room_participants(user_id);
-CREATE INDEX idx_membership_transactions_user ON membership_transactions(user_id);
+CREATE INDEX idx_room_participants_user.ON room_participants(user.id);
+CREATE INDEX idx_membership_transactions_user.ON membership_transactions(user.id);
 CREATE INDEX idx_membership_transactions_status ON membership_transactions(status);
 CREATE INDEX idx_mlm_commissions_beneficiary ON mlm_commissions(beneficiary_id);
 CREATE INDEX idx_mlm_commissions_transaction ON mlm_commissions(transaction_id);
@@ -133,7 +133,7 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-CREATE TRIGGER update_users_updated_at BEFORE UPDATE ON users
+CREATE TRIGGER update_user._updated_at BEFORE UPDATE ON user.
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 CREATE TRIGGER update_rooms_updated_at BEFORE UPDATE ON rooms

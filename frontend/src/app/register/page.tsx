@@ -19,9 +19,9 @@ import Card from '@/components/ui/Card';
 
 const registerSchema = z.object({
   username: z.string()
-    .min(3, 'Username must be at least 3 characters')
-    .max(50, 'Username must be less than 50 characters')
-    .regex(/^[a-zA-Z0-9_]+$/, 'Username can only contain letters, numbers, and underscores'),
+    .min(3, 'username must be at least 3 characters')
+    .max(50, 'username must be less than 50 characters')
+    .regex(/^[a-zA-Z0-9_]+$/, 'username can only contain letters, numbers, and underscores'),
   email: z.string().email('Invalid email address'),
   password: z.string()
     .min(8, 'Password must be at least 8 characters')
@@ -108,7 +108,7 @@ export default function RegisterPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <Input
-                  label="Username"
+                  label="username"
                   placeholder="Choose a username"
                   {...register('username')}
                   error={errors.username?.message}

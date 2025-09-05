@@ -1,6 +1,6 @@
 // src/services/mlmService.ts
 import { MlmCommissionModel } from '../models/MlmCommission';
-import { UserModel } from '../models/User';
+import { user.odel } from '../models/user.;
 import { MlmTreeModel } from '../models/MlmTree';
 import { BlockchainService } from './blockchainService';
 import { logger } from '../utils/logger';
@@ -11,7 +11,7 @@ export class MlmService {
   /**
    * Process MLM commissions for a membership payment
    */
-  static async processCommissions(transactionId: string, payerUserId: string): Promise<void> {
+  static async processCommissions(transactionId: string, payeruser.d: string): Promise<void> {
     try {
       logger.info(`Processing MLM commissions for transaction ${transactionId}`);
 
@@ -25,7 +25,7 @@ export class MlmService {
       ];
 
       // Get the referral chain for the payer
-      const referralChain = await this.getReferralChain(payerUserId, 5);
+      const referralChain = await this.getReferralChain(payeruser.d, 5);
 
       // Create commission records for each level
       for (let level = 0; level < referralChain.length && level < 5; level++) {
@@ -33,7 +33,7 @@ export class MlmService {
         const commissionAmount = commissionRates[level];
 
         // Check if beneficiary has active membership
-        const hasActiveMembership = await UserModel.isActiveSubscription(beneficiary.id);
+        const hasActiveMembership = await user.odel.isActiveSubscription(beneficiary.id);
         if (!hasActiveMembership) {
           logger.info(`Skipping commission for ${beneficiary.email} - inactive membership`);
           continue;
@@ -43,7 +43,7 @@ export class MlmService {
         const commission = await MlmCommissionModel.create({
           transactionId,
           beneficiaryId: beneficiary.id,
-          payerId: payerUserId,
+          payerId: payeruser.d,
           level: level + 1,
           amount: commissionAmount.toString(),
           status: 'pending'
@@ -73,19 +73,19 @@ export class MlmService {
   /**
    * Get referral chain (upline) for a user
    */
-  private static async getReferralChain(userId: string, maxLevels: number = 5): Promise<any[]> {
+  private static async getReferralChain(user.d: string, maxLevels: number = 5): Promise<any[]> {
     const chain = [];
-    let currentUserId = userId;
+    let currentuser.d = user.d;
 
     for (let level = 0; level < maxLevels; level++) {
-      const user = await UserModel.findById(currentUserId);
-      if (!user || !user.referrer_id) break;
+      const user.= await user.odel.findById(currentuser.d);
+      if (!user.|| !user.referrer!.id) break;
 
-      const referrer = await UserModel.findById(user.referrer_id);
-      if (!referrer) break;
+      const referrer!.= await user.odel.findById(user.referrer!.id);
+      if (!referrer!. break;
 
-      chain.push(referrer);
-      currentUserId = referrer.id;
+      chain.push(referrer!.;
+      currentuser.d = referrer!.id;
     }
 
     return chain;
@@ -94,10 +94,10 @@ export class MlmService {
   /**
    * Get MLM statistics for a user
    */
-  static async getUserMLMStats(userId: string): Promise<any> {
+  static async getuser.LMStats(user.d: string): Promise<any> {
     try {
       // Get referral tree
-      const referralTree = await UserModel.getReferralTree(userId, 5);
+      const referralTree = await user.odel.getReferralTree(user.d, 5);
 
       // Group by levels
       const levels = {
@@ -115,8 +115,8 @@ export class MlmService {
       ).length;
 
       // Get commission earnings
-      const totalCommissions = await MlmCommissionModel.getTotalEarnings(userId);
-      const thisMonthCommissions = await MlmCommissionModel.getMonthlyEarnings(userId);
+      const totalCommissions = await MlmCommissionModel.getTotalEarnings(user.d);
+      const thisMonthCommissions = await MlmCommissionModel.getMonthlyEarnings(user.d);
 
       return {
         totalReferrals,

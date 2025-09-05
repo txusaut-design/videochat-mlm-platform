@@ -5,7 +5,7 @@ import { FC } from 'react';
 import { motion } from 'framer-motion';
 import {
   MicrophoneIcon,
-  MicrophoneSlashIcon,
+  XMarkIcon,
   VideoCameraIcon,
   VideoCameraSlashIcon,
   ComputerDesktopIcon,
@@ -62,7 +62,7 @@ const VideoControls: FC<VideoControlsProps> = ({
             {isAudioEnabled ? (
               <MicrophoneIcon className="w-6 h-6" />
             ) : (
-              <MicrophoneSlashIcon className="w-6 h-6" />
+              <XMarkIcon className="w-6 h-6" />
             )}
           </motion.button>
 

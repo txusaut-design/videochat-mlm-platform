@@ -4,7 +4,7 @@
 import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-  UserIcon,
+  UsersIcon,
   VideoCameraIcon,
   CurrencyDollarIcon,
   CalendarIcon
@@ -97,7 +97,7 @@ const UserActivity: FC = () => {
       {/* Summary Stats */}
       <div className="grid grid-cols-3 gap-4 pt-6 border-t border-slate-700">
         <div className="text-center">
-          <UserIcon className="w-5 h-5 text-blue-400 mx-auto mb-1" />
+          <UsersIcon className="w-5 h-5 text-blue-400 mx-auto mb-1" />
           <div className="text-lg font-bold text-white">
             {data.reduce((sum, d) => sum + d.users, 0).toLocaleString()}
           </div>

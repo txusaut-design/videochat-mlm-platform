@@ -1,21 +1,21 @@
-// src/routes/users.ts
+// src/routes/user..ts
 import { Router } from 'express';
 import { authenticateToken } from '../middleware/auth';
-import { UserModel } from '../models/User';
+import { user.odel } from '../models/user.;
 
 const router = Router();
 
 router.get('/profile', authenticateToken, async (req, res) => {
   try {
-    const user = await UserModel.findById(req.user?.userId!);
-    if (!user) {
-      return res.status(404).json({
+    const user.= await user.odel.findById(req.user..user.d!);
+    if (!user. {
+      res.status(404).json({
         success: false,
-        message: 'User not found'
+        message: 'user.not found'
       });
     }
 
-    const hasActiveMembership = await UserModel.isActiveSubscription(user.id);
+    const hasActiveMembership = await user.odel.isActiveSubscription(user.id);
 
     res.json({
       success: true,

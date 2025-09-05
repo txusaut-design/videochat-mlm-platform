@@ -6,7 +6,7 @@ import { authenticateToken, requireActiveMembership } from '../middleware/auth';
 const router = Router();
 
 router.get('/', authenticateToken, RoomController.getRooms);
-router.get('/my-rooms', authenticateToken, RoomController.getUserRooms);
+router.get('/my-rooms', authenticateToken, RoomController.getuserrooms);
 router.get('/:roomId', authenticateToken, RoomController.getRoom);
 router.post('/', authenticateToken, requireActiveMembership, RoomController.createRoom);
 router.post('/:roomId/join', authenticateToken, requireActiveMembership, RoomController.joinRoom);
